@@ -24,8 +24,3 @@
 * **AI & NLP:** Sentence-Transformers (`all-MiniLM-L6-v2`), scikit-learn, PyTorch
 * **Optimization:** Google OR-Tools (ILP Solver)
 * **Database:** SQLite (Offline Mode) / Supabase PostgreSQL (Cloud Mode)
-
----
-
-## 🏆 Recognition
-Nominated for the **Smart India Hackathon (SIH) Nationals** (Software Category) — organized by the Government of India.
