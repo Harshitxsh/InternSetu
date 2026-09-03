@@ -4,63 +4,133 @@
 
 @layer base {
   body {
-    @apply bg-[#f8fafc] text-[#0f172a] selection:bg-blue-600 selection:text-white;
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    @apply bg-parchment text-ink font-sans antialiased;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+
+  /* Compact, professional table styling */
+  table { @apply w-full text-sm border-collapse; }
+  thead { @apply bg-parchment-warm border-b border-border-strong; }
+  th    { @apply px-4 py-2.5 text-left text-xs font-semibold text-ink-muted uppercase tracking-wide; }
+  td    { @apply px-4 py-3 border-b border-border text-ink; }
+  tr:last-child td { @apply border-0; }
+  tr:hover td { @apply bg-parchment; }
+}
+
+@layer components {
+  /* ── Government nav strip ── */
+  .gov-strip {
+    @apply bg-ayush-forest text-white text-xs py-1.5 px-4 flex items-center justify-between;
+  }
+
+  /* ── Primary action button ── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-brass text-ayush-forest font-semibold
+           px-4 py-2 rounded text-sm border border-brass-dark
+           hover:bg-brass-light transition-colors cursor-pointer
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass;
+  }
+
+  /* ── Secondary ghost button ── */
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 bg-transparent text-ink font-medium
+           px-4 py-2 rounded text-sm border border-border
+           hover:bg-parchment-warm hover:border-border-strong
+           transition-colors cursor-pointer;
+  }
+
+  /* ── Destructive button ── */
+  .btn-danger {
+    @apply inline-flex items-center gap-2 bg-danger text-white font-medium
+           px-4 py-2 rounded text-sm hover:bg-red-700 transition-colors cursor-pointer;
+  }
+
+  /* ── Card surface ── */
+  .card {
+    @apply bg-surface rounded-lg border border-border shadow-card p-5;
+  }
+
+  .card-compact {
+    @apply bg-surface rounded border border-border shadow-card p-3.5;
+  }
+
+  /* ── Status badges ── */
+  .badge {
+    @apply inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded;
+  }
+  .badge-green  { @apply badge bg-ayush-mint text-ayush-pine border border-ayush-sage/30; }
+  .badge-brass  { @apply badge bg-brass-pale text-brass-dark border border-brass-border; }
+  .badge-slate  { @apply badge bg-parchment-warm text-ink-muted border border-border-strong; }
+  .badge-danger { @apply badge bg-red-50 text-red-700 border border-red-200; }
+  .badge-info   { @apply badge bg-blue-50 text-blue-700 border border-blue-200; }
+
+  /* ── Section header label ── */
+  .section-label {
+    @apply text-xs font-bold uppercase tracking-widest text-ink-faint;
+  }
+
+  /* ── Form input ── */
+  .form-input {
+    @apply w-full px-3 py-2 bg-surface border border-border rounded text-sm text-ink
+           placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brass/40
+           focus:border-brass transition-colors;
+  }
+
+  .form-select {
+    @apply form-input appearance-none;
+  }
+
+  .form-label {
+    @apply block text-xs font-semibold text-ink-muted mb-1;
+  }
+
+  /* ── Sidebar nav item ── */
+  .nav-item {
+    @apply flex items-center gap-2.5 px-3 py-2 rounded text-sm font-medium
+           text-white/70 hover:text-white hover:bg-ayush-herb transition-colors cursor-pointer;
+  }
+  .nav-item-active {
+    @apply nav-item text-white bg-ayush-herb border-l-2 border-brass;
+  }
+
+  /* ── JRI progress bar ── */
+  .jri-bar-track {
+    @apply w-full h-2 bg-parchment-warm rounded-full overflow-hidden border border-border;
+  }
+  .jri-bar-fill {
+    @apply h-full rounded-full transition-all duration-700 ease-out;
+  }
+
+  /* ── Metric stat cell ── */
+  .metric-cell {
+    @apply flex flex-col gap-0.5;
+  }
+  .metric-value {
+    @apply text-2xl font-bold text-ink tabular-nums;
+  }
+  .metric-label {
+    @apply text-xs text-ink-muted;
+  }
+
+  /* ── Quest card ── */
+  .quest-card {
+    @apply card flex flex-col gap-3 hover:shadow-card-md transition-shadow
+           border-l-4 border-l-brass;
+  }
+  .quest-card-completed {
+    @apply card flex flex-col gap-3 border-l-4 border-l-ayush-leaf
+           bg-ayush-mint/20;
   }
 }
 
 @layer utilities {
-  .gov-gradient-header {
-    background: linear-gradient(135deg, #0b192c 0%, #11284d 50%, #1b3a6b 100%);
+  .text-balance  { text-wrap: balance; }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #CBD5E1 transparent;
   }
-  
-  .gov-gradient-subtle {
-    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-  }
-
-  .gov-badge-gold {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border: 1px solid #f59e0b;
-    color: #92400e;
-  }
-
-  .gov-badge-blue {
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-    border: 1px solid #93c5fd;
-    color: #1e40af;
-  }
-
-  .gov-badge-emerald {
-    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-    border: 1px solid #6ee7b7;
-    color: #065f46;
-  }
-
-  .text-glow {
-    text-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
-  }
-
-  .card-hover {
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .card-hover:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px -6px rgba(15, 31, 56, 0.12), 0 4px 10px -2px rgba(15, 31, 56, 0.05);
-  }
-}
-
-/* Custom subtle scrollbar */
-::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
 }

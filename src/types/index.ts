@@ -1,109 +1,134 @@
-export type SocialCategory = 'General' | 'OBC' | 'SC' | 'ST' | 'EWS';
+// Global TypeScript types for InternSetu v2.0 — Ministry of AYUSH Platform
 
-export type InstituteType = 
-  | 'Rural / Tier-3 Govt College (Priority +15%)' 
-  | 'Tier-2 State Public University' 
-  | 'Tier-1 Central / Premier Institute' 
-  | 'Private Affiliated Institute';
+export type UserRole = 'STUDENT' | 'COMPANY' | 'INSTITUTION';
 
-export type IncomeBracket = 
-  | 'Below ₹2.5 Lakhs/year (High Affirmative Weightage)' 
-  | '₹2.5L - ₹5.0 Lakhs/year (Medium Priority)' 
-  | '₹5.0L - ₹8.0 Lakhs/year' 
-  | 'Above ₹8.0 Lakhs/year';
+export type AYUSHDomain =
+  | 'Ayurveda'
+  | 'Yoga & Naturopathy'
+  | 'Unani Medicine'
+  | 'Siddha'
+  | 'Homeopathy'
+  | 'Herbal Pharmaceuticals'
+  | 'Biotechnology & Bioinformatics'
+  | 'Pharmacovigilance'
+  | 'Digital Healthcare'
+  | 'Traditional Medicine Research';
+
+export interface User {
+  uid: string;
+  name: string;
+  email: string;
+  photoURL?: string;
+  role: UserRole | null;
+  is_onboarded: boolean;
+  github_token?: string;       // GitHub OAuth access token
+  github_username?: string;
+}
 
 export interface StudentProfile {
-  id: string;
-  fullName: string;
-  email: string;
-  phone: string;
-  gender: 'Female' | 'Male' | 'Other' | 'Prefer not to say';
-  socialCategory: SocialCategory;
-  annualIncome: IncomeBracket;
-  state: string;
-  district: string;
-  isAspirationalDistrict: boolean;
-  isFirstGeneration: boolean;
-  instituteName: string;
-  instituteType: InstituteType;
+  uid: string;
+  institution: string;
   degree: string;
   branch: string;
   cgpa: number;
-  graduationYear: number;
+  graduation_year: number;
   skills: string[];
-  resumeFileName: string;
-  resumeFileSize: string;
-  resumeExtractSample: string;
-  credibilityIndex: number; // 0-100 anti-fluff score
+  primary_domain: AYUSHDomain;
 }
 
-export interface ProcessingStage {
-  id: number;
+export interface JRIBreakdown {
+  uid: string;
+  overall_jri: number;       // 0–100
+  s_assess: number;          // 35% weight
+  s_proj: number;            // 30% weight
+  s_resume: number;          // 20% weight
+  s_acad: number;            // 15% weight
+  tier: 'QUEST_MODE' | 'ALLOCATION_MODE';
+  top_strengths: string[];
+  skill_gaps: string[];
+  percentile: number;
+  computed_at?: string;
+}
+
+export interface GitHubRepo {
   name: string;
-  description: string;
-  techLabel: string;
-  status: 'waiting' | 'active' | 'done';
-  progress: number;
-  logs: string[];
-  metricLabel?: string;
-  metricValue?: string;
-  badge?: string;
+  description?: string;
+  language?: string;
+  stars: number;
+  forks: number;
+  topics: string[];
+  has_readme: boolean;
+  has_ci: boolean;
+  has_dockerfile: boolean;
+  commit_count: number;
 }
 
-export interface ScoreBreakdown {
-  overallScore: number; // 0 - 100
-  demographicScore: number; // max 25
-  academicScore: number; // max 25
-  skillMatchScore: number; // max 25
-  authenticityScore: number; // max 25
-  rankTier: 'Tier 1 - Direct Allocation Pool' | 'Tier 2 - High Affinity' | 'Tier 3 - Skill Bridging Recommended';
-  percentileRank: number;
-  affirmativeBonusPoints: number;
-  topStrengths: string[];
-  keyGapAreas: string[];
-  allocationNotes: string;
+export interface GitHubSnapshot {
+  username: string;
+  total_repos: number;
+  primary_languages: Record<string, number>;
+  repos: GitHubRepo[];
+  commit_velocity: number;
+  s_proj_score: number;
+  scored_at?: string;
 }
 
-export interface PMInternship {
+export interface SkillRequirement {
+  skill: string;
+  weight: number;
+}
+
+export interface Internship {
   id: string;
-  companyName: string;
-  companyCategory: 'Fortune India 500' | 'Top PSU / Navratna' | 'Leading Enterprise Partner';
-  roleTitle: string;
-  domain: 'AI & Data Science' | 'Core Engineering & EV' | 'Finance & Supply Chain' | 'Digital Governance' | 'Green Tech & Renewable';
+  company_name: string;
+  company_type: string;
+  role_title: string;
+  domain: AYUSHDomain;
   location: string;
-  stipendGovt: number; // Standard ₹5,000 Direct DBT
-  stipendCompany: number; // ₹500 to ₹3,000 company contribution
-  matchScore: number;
-  requiredSkills: string[];
-  affirmativeActionMatch: boolean;
-  openings: number;
+  stipend_monthly: number;
+  duration_months: number;
+  available_seats: number;
+  required_skills: SkillRequirement[];
   description: string;
-  locationPreferenceMatch: boolean;
-  mentorAssigned: string;
+  min_jri: number;
+}
+
+export interface InternshipMatch {
+  internship: Internship;
+  match_score: number;
+  ilp_rank: number;
+  semantic_explanation: string;
 }
 
 export interface SkillQuest {
   id: string;
   title: string;
-  category: 'AI & Data' | 'Cloud & Systems' | 'Core Engineering' | 'Finance & Analytics' | 'Communication & Soft Skills';
-  icon: string;
-  duration: string;
-  level: 'Fast Sprint (2 Days)' | 'Essential (5 Days)' | 'Deep Dive (10 Days)';
-  eligibilityBoost: number; // e.g. 8 for +8%
+  domain: AYUSHDomain;
+  category: string;
   description: string;
   syllabus: string[];
-  sponsorCompany: string;
-  isAccepted: boolean;
-  isCompleted: boolean;
-  xpReward: number;
-  badgeName: string;
+  duration_days: number;
+  xp_reward: number;
+  jri_boost_percent: number;
+  sponsor_company: string;
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  status: 'AVAILABLE' | 'ACCEPTED' | 'COMPLETED';
 }
 
-export interface StudentPersona {
-  id: string;
-  name: string;
-  tagline: string;
-  avatarSeed: string;
-  profile: StudentProfile;
-  initialEligibilityScore: number;
+
+export interface CohortSkillGap {
+  skill: string;
+  demand: number;
+  supply: number;
+  gap: number;
 }
+
+export type AppView =
+  | 'login'
+  | 'onboarding'
+  | 'student-dashboard'
+  | 'student-profile'
+  | 'student-quests'
+  | 'student-allocation'
+  | 'company-dashboard'
+  | 'institution-dashboard';

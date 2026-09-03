@@ -1,7 +1,7 @@
 {
-  "name": "internsetu-ai-allocation-engine",
+  "name": "internsetu-ayush-v2",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,10 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.20.5",
     "canvas-confetti": "^1.9.4",
+    "firebase": "^10.14.1",
     "lucide-react": "^0.475.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.27.0",
+    "recharts": "^2.13.3",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.9.0",
